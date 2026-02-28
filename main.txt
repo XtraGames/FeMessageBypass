@@ -43,7 +43,7 @@ local abilityButton = Instance.new("TextButton")
 abilityButton.Name = "AbilityButton"
 abilityButton.Size = UDim2.new(0, 100, 0, 50)
 abilityButton.Position = UDim2.new(0, 270, 0, 110)
-abilityButton.Text = "Ability"
+abilityButton.Text = "Crasher"
 abilityButton.Parent = screenGui
 
 -- Function to send the message once

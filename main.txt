@@ -85,7 +85,7 @@ local function activateAbility()
 
     local intro = true
     if intro then
-        event:FireServer('Crasher..')
+        event:FireServer('Domain EXPANSION:Infinite Void')
         task.wait(2)
     end
 
